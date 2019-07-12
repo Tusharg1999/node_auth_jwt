@@ -1,8 +1,12 @@
 const router =require('express').Router()
 const user=require('../model/user')
 const bcrypt=require('bcryptjs')
-const {registerValidation}=require('../validation')
+const jwt=require('jsonwebtoken')
+const key=require('../config/key')
+
+const {registerValidation,loginValidation}=require('../validation')
 //either this method or async functions in logi ill do async
+//Registratio
 router.post('/register',(req,res)=>{
     //validatin before using
     const {error}=registerValidation(req.body)
@@ -34,6 +38,7 @@ router.post('/register',(req,res)=>{
           catch(err){
             res.status(400).send(err)
            }
+           
                 
             });
         });
@@ -42,4 +47,27 @@ router.post('/register',(req,res)=>{
      }) 
     
 })
+
+//Login with async
+    router.post('/login',async(req,res)=>{
+     const {error}=loginValidation(req.body)
+     if(error)
+     {
+         return res.status(400).send(error.details[0].message)
+     }
+     //checking for email exist
+     const currentUser= await user.findOne({email:req.body.email})
+     if(!currentUser)
+     {return res.status(400).send('email does not exist')}
+        // email is correct
+        const validpass=await bcrypt.compare(req.body.password,currentUser.password)
+        if(!validpass)
+        {
+            return res.status(400).send('wrong password')
+        }
+        const token=jwt.sign({id:currentUser._id},key.TOKEN_SECRET)
+        res.header('auth-token',token).send(token)
+
+
+    })
 module.exports=router

@@ -9,6 +9,6 @@ mongoose.connect(db,{ useNewUrlParser: true })
 //body parser
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
-
 app.use('/api/users',require('./router/user'))
+app.use('/api/posts',require('./router/private'))
 app.listen(PORT)
