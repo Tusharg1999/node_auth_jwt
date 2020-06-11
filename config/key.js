@@ -1,5 +1,5 @@
-module.exports={
-    DB_CONNECT:'mongodb+srv://tushar:tushar123@cluster0-lrf5o.mongodb.net/test?retryWrites=true&w=majority',
-    TOKEN_SECRET:'hskjffknfjfkjnfk'
+module.exports = {
+    DB_CONNECT: "mongodb+srv://pallavi:pallavi123@cluster0-zak2t.mongodb.net/nodePractice?retryWrites=true&w=majority",
+    TOKEN_SECRET: 'hskjffknfjfkjnfk'
 
 }
